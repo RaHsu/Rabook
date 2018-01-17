@@ -41,6 +41,7 @@ radb.insertField = function(dbName,field,new_field,value){
 		let writeStream = JSON.stringify(db);
 		fs.writeFileSync(file_name,writeStream);
 		console.log('插入成功');
+		return {status:"success",message:"插入成功"};
 	}
 
 
@@ -62,13 +63,18 @@ radb.insertValue = function(dbName,field,value) {
 	if(!current){
 		throw Error("要插入的字段不存在");
 		return false;
-	}else{
+	}else if(current.includes(value)){
+		return {status:'failed',message:'不可插入重复值'}
+	}
+	else{
 		current.push(value);
 		let writeStream = JSON.stringify(db);
 		fs.writeFileSync(file_name,writeStream);
-		console.log('插入成功');
-
+		console.log('数据插入成功');
+		return {status:"success",message:"添加成功"};
 	}
+
+
 
 
 
