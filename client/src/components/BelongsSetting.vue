@@ -36,12 +36,19 @@ export default {
             this.modal1 = true;
         },
         submit:function(){
+            var that = this;
             $.ajax({
                 url:"http://localhost:3000/types/add",
                 data:{data:this.formItem.belong},
                 type:'POST',
-                success:function(data,textStatus,jqXHR){
-                    console.log(data);
+                success:function(result){
+                    console.log(result);
+                    if(result.status === 'success'){
+                        that.$Message.success(result.message);
+                    }else{
+                        that.$Message.error(result.message);
+                    }
+
                 },
                 error:function(xhr,textStatus){
                     console.log('错误');
