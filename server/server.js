@@ -17,8 +17,12 @@ app.all('*', function(req, res, next) {
 // 添加所属的接口
 app.post('/types/add', function (req, res) {
     console.log(req.body.data);
-    radb.insertValue('test','user.belongs',req.body.data);
-    res.send("cehnggong");
+    let result = radb.insertValue('test','user.belongs',req.body.data);
+    if(result.status === 'success'){
+        res.send(result);
+    }else{
+        res.send(result);
+    }
 });
 
 var server = app.listen(3000, function () {
