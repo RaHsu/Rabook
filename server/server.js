@@ -36,6 +36,18 @@ app.get('/belongs/get', function (req, res) {
     res.send(response_text);
 });
 
+// 删除所属的接口
+app.post('/belongs/delete', function (req, res) {
+    console.log(req.body.data);
+    let result = radb.deleteValue('test','user.belongs',req.body.data);
+    if(result.status === 'success'){
+        res.send(result);
+    }else{
+        res.send(result);
+    }
+});
+
+
 var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;

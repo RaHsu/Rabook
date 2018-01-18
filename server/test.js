@@ -1,12 +1,14 @@
 var request = require('request');
 var radb = require("./radb");
 
-radb.get('test','user.belongsss');
+//radb.insertField("test",'user','age',432);
+//radb.deleteValue('test','user.belongs','惊悚');
 
-// request.post(
-//     'http://localhost:3000/types/add',
-//     {form:{data:'hhhkkkokoko'}}
-// );
+
+request.post(
+    'http://localhost:3000/types/delete',
+    {form:{data:'你好'}}
+);
 // or
 
 // request('http://localhost:3000', function (error, response) {

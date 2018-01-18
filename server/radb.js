@@ -99,3 +99,60 @@ radb.get = function(dbName,field){
 	}
 	return current;
 }
+
+// 删除属性
+
+radb.daleteField = function(dbName,field){
+	let file_name = dbName + ".json";
+	let db = JSON.parse(fs.readFileSync(file_name));
+
+	let array = field.split(".");
+	let last = array.length-1;
+	var current = db;
+	for(let i = 0;i<array.length-1;i++){
+		current = current[array[i]];
+	}
+
+	if(!current[array[last]]){
+		throw Error("要删除的字段不存在");
+		return false;
+	}else{
+		delete current[array[last]];
+		let writeStream = JSON.stringify(db);
+		fs.writeFileSync(file_name,writeStream);
+		console.log("删除成功");
+		return {status:'success',message:'删除成功'};
+	}
+}
+
+// 删除值
+radb.deleteValue = function(dbName,field,value){
+	let file_name = dbName + ".json";
+	let db = JSON.parse(fs.readFileSync(file_name));
+
+	let array = field.split(".");
+	var current = db;
+	for(let i = 0;i<array.length;i++){
+		current = current[array[i]];
+	}
+
+	if(!current){
+		throw Error("要删除的字段不存在");
+		return false;
+	}else if(!(current instanceof Array)){
+		throw Error("删除字段的类型错误");
+		return false;
+	}
+	else{
+		for(let i=0;i<current.length;i++){
+			if(current[i] === value){
+				console.log("删除了一条记录");
+				current.splice(i,1);
+			}
+		}
+		let writeStream = JSON.stringify(db);
+		fs.writeFileSync(file_name,writeStream);
+		console.log("删除成功");
+		return {status:'success',message:'删除成功'};
+	}
+}

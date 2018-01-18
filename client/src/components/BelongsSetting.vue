@@ -5,7 +5,7 @@
             添加所属
         </Button>
         <div class="belongs-list">
-            <Tag v-for="belong in belongs" closable :color="belong.color" :key="belong.id">{{belong.data}}</Tag>
+            <Tag v-for="belong in belongs" closable :name="belong.data" @on-close="deleteBelong" :color="belong.color" :key="belong.id">{{belong.data}}</Tag>
         </div>
         <Modal
             v-model="modal1"
@@ -53,7 +53,7 @@ export default {
                     console.log(result);
                     if(result.status === 'success'){
                         that.$Message.success(result.message);
-                        that.belongs.push({data:that.formItem.belong});
+                        that.belongs.push({data:that.formItem.belong,color:that.colors[Math.floor(Math.random()*4)]});
                     }else{
                         that.$Message.error(result.message);
                     }
@@ -66,10 +66,34 @@ export default {
             })
         },
         cancel:function(){
+        },
+        deleteBelong:function(event,name){
+            console.log(name);
+            var that = this;
+            $.ajax({
+                url:"http://localhost:3000/belongs/delete",
+                type:'POST',
+                data:{data:name},
+                dataType:'json',
+                success:function(result){
+                    console.log(result);
+                    if(result.status === "success"){
+                        that.$Message.success("删除成功");
+                        //console.log(that.belongs);
+                        for(var i = 0;i<that.belongs.length;i++){
+                            if(that.belongs[i].data === name){
+                                that.belongs.splice(i,1);
+                            }
+                        }
+                    }
+                },
+                error:function(xhr,textStatus){
+                    that.$Message.error("连接服务器失败");
+                }
+            })
         }
     },
     created:function() {
-        console.log("fdsaytrytrytrytryfdsa");
         var that = this;
         $.ajax({
             url:"http://localhost:3000/belongs/get",
@@ -79,7 +103,7 @@ export default {
                 for(var i = 0;i<result.length;i++){
                     result[i].color = that.colors[Math.floor(Math.random()*4)];
                 }
-                console.log(result);
+                //console.log(result);
                 that.belongs = result;
             },
             error:function(xhr,textStatus){
