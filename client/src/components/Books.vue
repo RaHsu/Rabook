@@ -36,6 +36,7 @@ export default {
     methods:{
         addBook:function(){
             this.modal1 = true;
+            console.log(this.$route);
         },
         submit:function(){
 
@@ -52,6 +53,6 @@ export default {
     #addButton {
         margin-top: 20px;
         float: left;
-        margin-left: 20px;
+        margin-left: -70px;
     }
 </style>
