@@ -1,12 +1,12 @@
 var request = require('request');
 var radb = require("./radb");
 
-//radb.insertField('test','user','books',"fdsa");
+radb.get('test','user.belongsss');
 
-request.post(
-    'http://localhost:3000/types/add',
-    {form:{data:'hhhkkkokoko'}}
-);
+// request.post(
+//     'http://localhost:3000/types/add',
+//     {form:{data:'hhhkkkokoko'}}
+// );
 // or
 
 // request('http://localhost:3000', function (error, response) {

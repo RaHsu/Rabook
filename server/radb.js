@@ -58,7 +58,7 @@ radb.insertValue = function(dbName,field,value) {
 	for(let i = 0;i<array.length;i++){
 		current = current[array[i]];
 	}
-	console.log(current);
+	//console.log(current);
 
 	if(!current){
 		throw Error("要插入的字段不存在");
@@ -80,4 +80,22 @@ radb.insertValue = function(dbName,field,value) {
 
 
 
+}
+
+// 简单查询
+radb.get = function(dbName,field){
+	let file_name = dbName + ".json";
+	let db = JSON.parse(fs.readFileSync(file_name));
+
+	let array = field.split(".");
+	var current = db;
+	for(let i = 0;i<array.length;i++){
+		current = current[array[i]];
+	}
+
+	if(!current){
+		throw Error("要查找的字段不存在");
+		return false;
+	}
+	return current;
 }

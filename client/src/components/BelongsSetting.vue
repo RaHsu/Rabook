@@ -4,6 +4,9 @@
             <Icon type="plus-round" shape="circle" size="large"></Icon>
             添加所属
         </Button>
+        <div class="belongs-list">
+            <Tag v-for="belong in belongs" closable :color="belong.color" :key="belong.id">{{belong.data}}</Tag>
+        </div>
         <Modal
             v-model="modal1"
             title="添加所属"
@@ -27,8 +30,13 @@ export default {
                modal1: false,
                formItem:{
                    belong:'',
-
-               }
+               },
+               belongs:[
+                   {data:"nihao"},
+                   {data:"joijoi"},
+                   {data:"你好"}
+               ],
+               colors:["blue","green","red","yellow"]
            }
        },
     methods:{
@@ -38,36 +46,62 @@ export default {
         submit:function(){
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/types/add",
+                url:"http://localhost:3000/belongs/add",
                 data:{data:this.formItem.belong},
                 type:'POST',
                 success:function(result){
                     console.log(result);
                     if(result.status === 'success'){
                         that.$Message.success(result.message);
+                        that.belongs.push({data:that.formItem.belong});
                     }else{
                         that.$Message.error(result.message);
                     }
 
                 },
                 error:function(xhr,textStatus){
-                    console.log('错误');
+                    that.$Message.error("连接服务器失败");
 
                 }
             })
         },
         cancel:function(){
-
         }
-
+    },
+    created:function() {
+        console.log("fdsaytrytrytrytryfdsa");
+        var that = this;
+        $.ajax({
+            url:"http://localhost:3000/belongs/get",
+            type:'GET',
+            dataType:'json',
+            success:function(result){
+                for(var i = 0;i<result.length;i++){
+                    result[i].color = that.colors[Math.floor(Math.random()*4)];
+                }
+                console.log(result);
+                that.belongs = result;
+            },
+            error:function(xhr,textStatus){
+                that.$Message.error("连接服务器失败");
+            }
+        })
     }
+
+
 }
 </script>
 
 <style lang="css">
+.belongs-setting {
+    text-align: left;
+}
 #addButton {
     margin-top: 20px;
-    float: left;
     margin-left: 20px;
+}
+.belongs-list {
+    margin-top: 20px;
+    padding: 0 20px;
 }
 </style>

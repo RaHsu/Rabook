@@ -15,7 +15,7 @@ app.all('*', function(req, res, next) {
 });
 
 // 添加所属的接口
-app.post('/types/add', function (req, res) {
+app.post('/belongs/add', function (req, res) {
     console.log(req.body.data);
     let result = radb.insertValue('test','user.belongs',req.body.data);
     if(result.status === 'success'){
@@ -23,6 +23,17 @@ app.post('/types/add', function (req, res) {
     }else{
         res.send(result);
     }
+});
+
+// 查询全部所属
+app.get('/belongs/get', function (req, res) {
+    console.log(req.body.data);
+    let result = radb.get('test','user.belongs');
+    let response_text=[];
+    for(let i = 0;i<result.length;i++){
+        response_text.push({data:result[i]});
+    }
+    res.send(response_text);
 });
 
 var server = app.listen(3000, function () {
