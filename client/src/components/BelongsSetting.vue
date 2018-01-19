@@ -47,7 +47,7 @@ export default {
         submit:function(){
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/belongs/add",
+                url:"http://"+server+"/belongs/add",
                 data:{data:this.formItem.belong},
                 type:'POST',
                 success:function(result){
@@ -72,7 +72,7 @@ export default {
             console.log(name);
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/belongs/delete",
+                url:"http://"+server+"/belongs/delete",
                 type:'POST',
                 data:{data:name},
                 dataType:'json',
@@ -97,7 +97,7 @@ export default {
     created:function() {
         var that = this;
         $.ajax({
-            url:"http://localhost:3000/belongs/get",
+            url:"http://"+server+"/belongs/get",
             type:'GET',
             dataType:'json',
             success:function(result){

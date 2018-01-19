@@ -76,7 +76,7 @@ export default {
             console.log(send_data);
 
             $.ajax({
-                url:"http://localhost:3000/reading/finish",
+                url:"http://"+server+"/reading/finish",
                 data:{data:send_data},
                 type:'POST',
                 dataType:'JSON',
@@ -108,7 +108,7 @@ export default {
 
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/reading/abandon",
+                url:"http://"+server+"/reading/abandon",
                 data:{data:send_data},
                 type:'POST',
                 dataType:'JSON',
@@ -140,7 +140,7 @@ export default {
 
         // 获取书籍信息并默认显示全部
         $.ajax({
-            url:"http://localhost:3000/readingbooks/get",
+            url:"http://"+server+"/readingbooks/get",
             type:'GET',
             dataType:'json',
             success:function(result){

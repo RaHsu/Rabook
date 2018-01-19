@@ -6,6 +6,7 @@ import router from './router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import $ from 'jquery'
+import './assets/js/url.js'
 
 Vue.config.productionTip = false
 

@@ -84,7 +84,7 @@ export default {
         // 初始化所属和类型选项
         var that = this;
         $.ajax({
-            url:"http://localhost:3000/belongs/get",
+            url:"http://"+server+"/belongs/get",
             type:'GET',
             dataType:'json',
             success:function(result){
@@ -108,7 +108,7 @@ export default {
             }
         });
         $.ajax({
-            url:"http://localhost:3000/types/get",
+            url:"http://"+server+"/types/get",
             type:'GET',
             dataType:'json',
             success:function(result){
@@ -125,7 +125,7 @@ export default {
         });
         // 获取书籍信息并默认显示全部
         $.ajax({
-            url:"http://localhost:3000/readedbooks/get",
+            url:"http://"+server+"/readedbooks/get",
             type:'GET',
             dataType:'json',
             success:function(result){

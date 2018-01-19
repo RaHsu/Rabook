@@ -54,7 +54,7 @@ export default {
         submit:function(){
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/wishs/add",
+                url:"http://"+server+"/wishs/add",
                 data:{data:this.formItem.wish},
                 type:'POST',
                 success:function(result){
@@ -79,7 +79,7 @@ export default {
             console.log(name);
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/wishs/delete",
+                url:"http://"+server+"/wishs/delete",
                 type:'POST',
                 data:{data:name},
                 dataType:'json',
@@ -104,7 +104,7 @@ export default {
     created:function() {
         var that = this;
         $.ajax({
-            url:"http://localhost:3000/wishs/get",
+            url:"http://"+server+"/wishs/get",
             type:'GET',
             dataType:'json',
             success:function(result){
