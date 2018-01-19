@@ -1,11 +1,17 @@
 <template>
     <Menu mode="horizontal" :theme="theme1" :active-name="activeCode">
-    <router-link to="/">
-      <MenuItem name="1">
-        <Icon type="ios-paper"></Icon>
-        书籍
-      </MenuItem>
-     </router-link>
+        <Submenu name="1">
+            <template slot="title">
+                <Icon type="ios-paper"></Icon>
+                书籍
+            </template>
+            <router-link to="/books/unread">
+                <MenuItem name="1-1">未读书籍</MenuItem>
+            </router-link>
+            <router-link to="/books/readed">
+                <MenuItem name="1-2">已读书籍</MenuItem>
+            </router-link>
+        </Submenu>
       <MenuItem name="2">
          <Icon type="flag"></Icon>
           计划
@@ -33,7 +39,8 @@
                 theme1: 'light',
                 activeCode:'',
                 routes:[
-                    {code:'1',route:'/'},
+                    {code:'1-1',route:'/books/unread'},
+                    {code:'1-2',route:'/books/readed'},
                     {code:'2',route:'/plan'},
                     {code:'3-1',route:'/settings/belongs'},
                     {code:'3-2',route:'/settings/types'}

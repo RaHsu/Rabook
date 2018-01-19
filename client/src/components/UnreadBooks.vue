@@ -1,5 +1,11 @@
 <template lang="html">
     <div class="books">
+        <h1>未读书籍 <Alert type="info" show-icon>
+            共
+            <span class="book-count">{{book_count}}</span>
+            本书
+        </Alert></h1>
+
         <Button type="primary" @click="addBook" id="addButton">
             <Icon type="plus-round" shape="circle" size="large"></Icon>
             添加书籍
@@ -30,11 +36,7 @@
             </Form>
         </Modal>
         <div class="fliter">
-            <Alert type="info" show-icon>
-                共
-                <span class="book-count">{{book_count}}</span>
-                本书
-            </Alert>
+
             <span>
                 筛选：
             </span>
@@ -53,11 +55,11 @@
                     <Tag color="green" type="dot">{{item.belong}}</Tag>
                 </p>
                 <p>
-                     <Button type="primary">
+                     <Button type="primary" @click.capture="startRead" :book_id="item.book_id">
                          <Icon type="android-bookmark"></Icon>
                          开始读
                      </Button>
-                     <Button type="success">
+                     <Button type="success"  @click.capture="addToPlan" :book_id="item.book_id">
                          <Icon type="flag"></Icon>
                          加入最近阅读计划
                      </Button>
@@ -65,10 +67,9 @@
                          <Icon type="edit"></Icon>
                          修改
                      </Button>
-                     <Button type="error">
-                         <Icon type="trash-b"></Icon>
-                         删除
-                     </Button>
+
+                     <Button type="error" @click.capture="deleteBook" :book="item.bookName"><Icon type="trash-b"></Icon> 删除</Button>
+
 
                 </p>
             </Card>
@@ -86,8 +87,8 @@ export default {
                    book_name:'',
                    auther:'',
                    belong:'',
-                   type:'',
-                   status:1
+                   type:''
+
                },
                belongs_data:[],
                types_data:[],
@@ -106,7 +107,7 @@ export default {
             console.log(this.formItem);
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/books/add",
+                url:"http://localhost:3000/unreadbooks/add",
                 data:{data:this.formItem},
                 type:'POST',
                 dataType:'JSON',
@@ -129,6 +130,41 @@ export default {
         cancel:function(){
 
         },
+        deleteBook:function(event){
+            var book = event.srcElement.getAttribute("book")
+            ||event.srcElement.parentNode.getAttribute("book")
+            ||event.srcElement.parentNode.parentNode.getAttribute("book");
+            console.log(book);
+            this.$Modal.confirm({
+                title:"删除确认",
+                content:'确认删除这本书吗？',
+                okText:'删除',
+                onOk:function(){
+                    var that = this;
+                    $.ajax({
+                        url:"http://localhost:3000/unreadbooks/delete",
+                        data:{data:book},
+                        type:'POST',
+                        dataType:'JSON',
+                        success:function(result){
+                            console.log(result);
+                            if(result.status === 'success'){
+                                that.$Message.success(result.message + ",即将刷新");
+                                setTimeout("window.location.reload(true);",2000);
+                            }else{
+                                that.$Message.error(result.message);
+                            }
+
+                        },
+                        error:function(xhr,textStatus){
+                            that.$Message.error("连接服务器失败");
+
+                        }
+                    })
+                }
+            });
+
+        },
         fliter:function(label){
             console.log(label);
             var filter_list = [];
@@ -145,7 +181,68 @@ export default {
                 this.book_count = filter_list.length;
             }
 
+        },
+        startRead:function(event){
+            var book = event.srcElement.getAttribute("book_id")
+            ||event.srcElement.parentNode.getAttribute("book_id")
+            ||event.srcElement.parentNode.parentNode.getAttribute("book_id");
+
+            var send_data = this.primary_book_list[book];
+
+            var that = this;
+            $.ajax({
+                url:"http://localhost:3000/unreadbooks/startread",
+                data:{data:send_data},
+                type:'POST',
+                dataType:'JSON',
+                success:function(result){
+                    console.log(result);
+                    if(result.status === 'success'){
+                        that.$Message.success(result.message + ",即将刷新");
+                        setTimeout("window.location.reload(true);",2000);
+                    }else{
+                        that.$Message.error(result.message);
+                    }
+
+                },
+                error:function(xhr,textStatus){
+                    that.$Message.error("连接服务器失败");
+
+                }
+            })
+
+            console.log(book);
+        },
+        addToPlan:function(){
+            var book = event.srcElement.getAttribute("book_id")
+            ||event.srcElement.parentNode.getAttribute("book_id")
+            ||event.srcElement.parentNode.parentNode.getAttribute("book_id");
+
+            var send_data = this.primary_book_list[book];
+            console.log(send_data);
+
+            var that = this;
+            $.ajax({
+                url:"http://localhost:3000/unreadbooks/addtoplan",
+                data:{data:send_data},
+                type:'POST',
+                dataType:'JSON',
+                success:function(result){
+                    console.log(result);
+                    if(result.status === 'success'){
+                        that.$Message.success(result.message);
+                    }else{
+                        that.$Message.error(result.message);
+                    }
+
+                },
+                error:function(xhr,textStatus){
+                    that.$Message.error("连接服务器失败");
+
+                }
+            })
         }
+
 
     },
     created(){
@@ -193,12 +290,15 @@ export default {
         });
         // 获取书籍信息并默认显示全部
         $.ajax({
-            url:"http://localhost:3000/books/get",
+            url:"http://localhost:3000/unreadbooks/get",
             type:'GET',
             dataType:'json',
             success:function(result){
                 that.primary_book_list = result;
                 that.show_book_list = that.primary_book_list;
+                for(var i = 0;i<that.primary_book_list.length;i++){
+                    that.primary_book_list[i].book_id = i;
+                }
                 that.book_count = that.primary_book_list.length;
                 console.log(that.show_book_list);
             },
@@ -214,9 +314,13 @@ export default {
     .books {
         text-align: left;
     }
+    .books h1{
+        padding-left: 20px;
+        padding-top: 10px;
+    }
     #addButton {
         margin-top: 20px;
-        margin-left: -70px;
+        margin-left: 20px;
     }
     .bookList{
         padding: 20px 20px;
@@ -245,10 +349,10 @@ export default {
     .fliter {
         padding: 10px 20px;
     }
-    .fliter .book-count{
+    .book-count{
         font-size: 18px;
     }
-    .fliter .ivu-alert{
+    .ivu-alert{
         display: inline-block;
     }
     .fliter .ivu-radio-group-button .ivu-radio-wrapper{

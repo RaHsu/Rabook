@@ -124,7 +124,7 @@ export default {
 }
 #addButton {
     margin-top: 20px;
-    margin-left: -70px;
+    margin-left: 20px;
 
 }
 .belongs-list {
