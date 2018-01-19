@@ -1,21 +1,21 @@
 <template lang="html">
-    <div class="belongs-setting">
-        <Button type="primary" @click="addBelong" id="addButton">
+    <div class="types-setting">
+        <Button type="primary" @click="addType" id="addButton">
             <Icon type="plus-round" shape="circle" size="large"></Icon>
-            添加所属
+            添加类型
         </Button>
-        <div class="belongs-list">
-            <Tag type="dot" v-for="belong in belongs" closable :name="belong.data" @on-close="deleteBelong" :color="belong.color" :key="belong.id">{{belong.data}}</Tag>
+        <div class="types-list">
+            <Tag type="dot" v-for="type in types" closable :name="type.data" @on-close="deleteType" :color="type.color" :key="type.id">{{type.data}}</Tag>
         </div>
         <Modal
             v-model="modal1"
-            title="添加所属"
+            title="添加类型"
             @on-ok="submit"
             @on-cancel="cancel"
             >
             <Form :model="formItem" :label-width="80">
-                <FormItem label="所属">
-                    <Input v-model="formItem.belong" placeholder="请输入所属"></Input>
+                <FormItem label="类型">
+                    <Input v-model="formItem.type" placeholder="请输入类型"></Input>
                 </FormItem>
             </Form>
         </Modal>
@@ -29,31 +29,29 @@ export default {
            return {
                modal1: false,
                formItem:{
-                   belong:'',
+                   type:'',
                },
-               belongs:[
-                   {data:"nihao"},
-                   {data:"joijoi"},
-                   {data:"你好"}
+               types:[
+
                ],
                colors:["blue","green","red","yellow"]
            }
        },
     methods:{
-        addBelong:function(){
+        addType:function(){
             this.modal1 = true;
         },
         submit:function(){
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/belongs/add",
-                data:{data:this.formItem.belong},
+                url:"http://localhost:3000/types/add",
+                data:{data:this.formItem.type},
                 type:'POST',
                 success:function(result){
                     console.log(result);
                     if(result.status === 'success'){
                         that.$Message.success(result.message);
-                        that.belongs.push({data:that.formItem.belong,color:that.colors[Math.floor(Math.random()*4)]});
+                        that.types.push({data:that.formItem.type,color:that.colors[Math.floor(Math.random()*4)]});
                     }else{
                         that.$Message.error(result.message);
                     }
@@ -67,11 +65,11 @@ export default {
         },
         cancel:function(){
         },
-        deleteBelong:function(event,name){
+        deleteType:function(event,name){
             console.log(name);
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/belongs/delete",
+                url:"http://localhost:3000/types/delete",
                 type:'POST',
                 data:{data:name},
                 dataType:'json',
@@ -79,10 +77,10 @@ export default {
                     console.log(result);
                     if(result.status === "success"){
                         that.$Message.success("删除成功");
-                        //console.log(that.belongs);
-                        for(var i = 0;i<that.belongs.length;i++){
-                            if(that.belongs[i].data === name){
-                                that.belongs.splice(i,1);
+                        //console.log(that.types);
+                        for(var i = 0;i<that.types.length;i++){
+                            if(that.types[i].data === name){
+                                that.types.splice(i,1);
                             }
                         }
                     }
@@ -96,20 +94,21 @@ export default {
     created:function() {
         var that = this;
         $.ajax({
-            url:"http://localhost:3000/belongs/get",
+            url:"http://localhost:3000/types/get",
             type:'GET',
             dataType:'json',
             success:function(result){
+                var finall_data = [];
                 for(var i = 0;i<result.length;i++){
-                    result[i].color = that.colors[Math.floor(Math.random()*4)];
+                    finall_data.push({data:result[i],color:that.colors[Math.floor(Math.random()*4)]})
                 }
                 //console.log(result);
-                that.belongs = result;
+                that.types = finall_data;
             },
             error:function(xhr,textStatus){
                 that.$Message.error("连接服务器失败");
             }
-        })
+        });
     }
 
 
@@ -117,7 +116,7 @@ export default {
 </script>
 
 <style lang="css">
-.belongs-setting {
+.types-setting {
     text-align: left;
 }
 #addButton {
@@ -125,7 +124,7 @@ export default {
     margin-left: -70px;
 
 }
-.belongs-list {
+.types-list {
     margin-top: 20px;
     padding: 0 20px;
 }

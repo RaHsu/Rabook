@@ -19,6 +19,7 @@
                 </FormItem>
             </Form>
         </Modal>
+
     </div>
 
 </template>
@@ -100,11 +101,12 @@ export default {
             type:'GET',
             dataType:'json',
             success:function(result){
+                var finall_data = [];
                 for(var i = 0;i<result.length;i++){
-                    result[i].color = that.colors[Math.floor(Math.random()*4)];
+                    finall_data.push({data:result[i],color:that.colors[Math.floor(Math.random()*4)]})
                 }
                 //console.log(result);
-                that.belongs = result;
+                that.belongs = finall_data;
             },
             error:function(xhr,textStatus){
                 that.$Message.error("连接服务器失败");

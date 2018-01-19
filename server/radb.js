@@ -40,6 +40,7 @@ radb.insertField = function(dbName,field,new_field,value){
 
 		let writeStream = JSON.stringify(db);
 		fs.writeFileSync(file_name,writeStream);
+		console.log(db);
 		console.log('插入成功');
 		return {status:"success",message:"插入成功"};
 	}
@@ -58,7 +59,7 @@ radb.insertValue = function(dbName,field,value) {
 	for(let i = 0;i<array.length;i++){
 		current = current[array[i]];
 	}
-	//console.log(current);
+
 
 	if(!current){
 		throw Error("要插入的字段不存在");
@@ -68,6 +69,7 @@ radb.insertValue = function(dbName,field,value) {
 	}
 	else{
 		current.push(value);
+		console.log(db);
 		let writeStream = JSON.stringify(db);
 		fs.writeFileSync(file_name,writeStream);
 		console.log('数据插入成功');
@@ -120,6 +122,7 @@ radb.daleteField = function(dbName,field){
 		delete current[array[last]];
 		let writeStream = JSON.stringify(db);
 		fs.writeFileSync(file_name,writeStream);
+		console.log(db);
 		console.log("删除成功");
 		return {status:'success',message:'删除成功'};
 	}
@@ -152,6 +155,7 @@ radb.deleteValue = function(dbName,field,value){
 		}
 		let writeStream = JSON.stringify(db);
 		fs.writeFileSync(file_name,writeStream);
+		console.log(db);
 		console.log("删除成功");
 		return {status:'success',message:'删除成功'};
 	}
