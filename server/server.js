@@ -6,6 +6,8 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+const database = 'db';
+
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
@@ -17,7 +19,7 @@ app.all('*', function(req, res, next) {
 // 添加所属的接口
 app.post('/belongs/add', function (req, res) {
     console.log(req.body.data);
-    let result = radb.insertValue('test','user.belongs',req.body.data);
+    let result = radb.insertValue('db','user.belongs',req.body.data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -28,7 +30,7 @@ app.post('/belongs/add', function (req, res) {
 // 查询全部所属
 app.get('/belongs/get', function (req, res) {
 
-    let result = radb.get('test','user.belongs');
+    let result = radb.get('db','user.belongs');
 
     res.send(result);
 });
@@ -36,7 +38,7 @@ app.get('/belongs/get', function (req, res) {
 // 删除所属的接口
 app.post('/belongs/delete', function (req, res) {
     console.log(req.body.data);
-    let result = radb.deleteValue('test','user.belongs',req.body.data);
+    let result = radb.deleteValue('db','user.belongs',req.body.data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -47,7 +49,7 @@ app.post('/belongs/delete', function (req, res) {
 // 添加心愿的接口
 app.post('/wishs/add', function (req, res) {
     console.log(req.body.data);
-    let result = radb.insertValue('test','user.wishs',req.body.data);
+    let result = radb.insertValue('db','user.wishs',req.body.data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -58,7 +60,7 @@ app.post('/wishs/add', function (req, res) {
 // 查询全部心愿
 app.get('/wishs/get', function (req, res) {
 
-    let result = radb.get('test','user.wishs');
+    let result = radb.get('db','user.wishs');
 
     res.send(result);
 });
@@ -66,7 +68,7 @@ app.get('/wishs/get', function (req, res) {
 // 删除心愿的接口
 app.post('/wishs/delete', function (req, res) {
     console.log(req.body.data);
-    let result = radb.deleteValue('test','user.wishs',req.body.data);
+    let result = radb.deleteValue('db','user.wishs',req.body.data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -77,7 +79,7 @@ app.post('/wishs/delete', function (req, res) {
 // 添加类型的接口
 app.post('/types/add', function (req, res) {
     console.log(req.body.data);
-    let result = radb.insertValue('test','user.types',req.body.data);
+    let result = radb.insertValue('db','user.types',req.body.data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -87,14 +89,14 @@ app.post('/types/add', function (req, res) {
 
 // 查询全部类型
 app.get('/types/get', function (req, res) {
-    let result = radb.get('test','user.types');
+    let result = radb.get('db','user.types');
     res.send(result);
 });
 
 // 删除某个类型
 app.post('/types/delete', function (req, res) {
     console.log(req.body.data);
-    let result = radb.deleteValue('test','user.types',req.body.data);
+    let result = radb.deleteValue('db','user.types',req.body.data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -112,7 +114,7 @@ app.post('/unreadbooks/add', function (req, res) {
 
 
     console.log(store_data);
-    let result = radb.insertValue('test','user.unreadbooks',store_data);
+    let result = radb.insertValue('db','user.unreadbooks',store_data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -122,14 +124,14 @@ app.post('/unreadbooks/add', function (req, res) {
 
 // 获取书籍信息（未读）
 app.get('/unreadbooks/get', function (req, res) {
-    let result = radb.get('test','user.unreadbooks');
+    let result = radb.get('db','user.unreadbooks');
     res.send(result);
 });
 
 // 删除一本书籍（未读）
 app.post('/unreadbooks/delete', function (req, res) {
     console.log(req.body.data);
-    let result = radb.deleteValueByQuery("test",'user.unreadbooks','bookName','equal',req.body.data);
+    let result = radb.deleteValueByQuery("db",'user.unreadbooks','bookName','equal',req.body.data);
 
     if(result.status === 'success'){
         res.send(result);
@@ -149,12 +151,12 @@ app.post('/unreadbooks/startread', function (req, res) {
 
 
     // 删除未读书
-    radb.deleteValueByQuery("test",'user.unreadbooks','bookName','equal',store_data.bookName);
+    radb.deleteValueByQuery("db",'user.unreadbooks','bookName','equal',store_data.bookName);
 
     console.log(store_data);
 
     // 添加正在读的书
-    let result = radb.insertValue('test','user.reading',store_data);
+    let result = radb.insertValue('db','user.reading',store_data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -172,7 +174,7 @@ app.post('/unreadbooks/addtoplan', function (req, res) {
     store_data.type = req.body['data[type]'];
 
 
-    let result = radb.insertValue('test','user.plans',store_data);
+    let result = radb.insertValue('db','user.plans',store_data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -182,7 +184,7 @@ app.post('/unreadbooks/addtoplan', function (req, res) {
 
 // 获取书籍信息（正在读）
 app.get('/readingbooks/get', function (req, res) {
-    let result = radb.get('test','user.reading');
+    let result = radb.get('db','user.reading');
     res.send(result);
 });
 
@@ -198,10 +200,10 @@ app.post('/reading/finish', function (req, res) {
 
     console.log(store_data);
     //从正在读删除该书
-    radb.deleteValueByQuery("test",'user.reading','bookName','equal',store_data.bookName);
+    radb.deleteValueByQuery("db",'user.reading','bookName','equal',store_data.bookName);
 
 
-    let result = radb.insertValue('test','user.readedBooks',store_data);
+    let result = radb.insertValue('db','user.readedBooks',store_data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -220,10 +222,10 @@ app.post('/reading/abandon', function (req, res) {
 
     console.log(store_data);
     //从正在读删除该书
-    radb.deleteValueByQuery("test",'user.reading','bookName','equal',store_data.bookName);
+    radb.deleteValueByQuery("db",'user.reading','bookName','equal',store_data.bookName);
 
     // 放入未读书籍中
-    let result = radb.insertValue('test','user.unreadbooks',store_data);
+    let result = radb.insertValue('db','user.unreadbooks',store_data);
     if(result.status === 'success'){
         res.send(result);
     }else{
@@ -233,7 +235,7 @@ app.post('/reading/abandon', function (req, res) {
 
 // 获取书籍信息（已读）
 app.get('/readedbooks/get', function (req, res) {
-    let result = radb.get('test','user.readedBooks');
+    let result = radb.get('db','user.readedBooks');
     res.send(result);
 });
 

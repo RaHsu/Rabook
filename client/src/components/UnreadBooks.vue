@@ -59,10 +59,7 @@
                          <Icon type="android-bookmark"></Icon>
                          开始读
                      </Button>
-                     <Button size="small" type="success"  @click.capture="addToPlan" :book_id="item.book_id">
-                         <Icon type="flag"></Icon>
-                         加入最近阅读计划
-                     </Button>
+
                      <Button size="small" type="warning">
                          <Icon type="edit"></Icon>
                          修改
@@ -212,36 +209,8 @@ export default {
             })
 
             console.log(book);
-        },
-        addToPlan:function(){
-            var book = event.srcElement.getAttribute("book_id")
-            ||event.srcElement.parentNode.getAttribute("book_id")
-            ||event.srcElement.parentNode.parentNode.getAttribute("book_id");
-
-            var send_data = this.primary_book_list[book];
-            console.log(send_data);
-
-            var that = this;
-            $.ajax({
-                url:"http://localhost:3000/unreadbooks/addtoplan",
-                data:{data:send_data},
-                type:'POST',
-                dataType:'JSON',
-                success:function(result){
-                    console.log(result);
-                    if(result.status === 'success'){
-                        that.$Message.success(result.message);
-                    }else{
-                        that.$Message.error(result.message);
-                    }
-
-                },
-                error:function(xhr,textStatus){
-                    that.$Message.error("连接服务器失败");
-
-                }
-            })
         }
+
 
 
     },
