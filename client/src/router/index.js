@@ -5,6 +5,7 @@ import BelongsSetting from '@/components/BelongsSetting'
 import TypesSetting from '@/components/TypesSetting'
 import ReadedBooks from '@/components/ReadedBooks'
 import Reading from '@/components/Reading'
+import Wishs from '@/components/Wishs'
 
 Vue.use(Router)
 
@@ -30,6 +31,10 @@ export default new Router({
           name: 'Reading',
           component: Reading
       },{
+            path: '/plans/wishs',
+            name: 'Wishs',
+            component: Wishs
+        },{
       path:'/settings/belongs',
       name:'BelongsSetting',
       component: BelongsSetting

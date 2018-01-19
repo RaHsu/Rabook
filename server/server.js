@@ -44,6 +44,36 @@ app.post('/belongs/delete', function (req, res) {
     }
 });
 
+// 添加心愿的接口
+app.post('/wishs/add', function (req, res) {
+    console.log(req.body.data);
+    let result = radb.insertValue('test','user.wishs',req.body.data);
+    if(result.status === 'success'){
+        res.send(result);
+    }else{
+        res.send(result);
+    }
+});
+
+// 查询全部心愿
+app.get('/wishs/get', function (req, res) {
+
+    let result = radb.get('test','user.wishs');
+
+    res.send(result);
+});
+
+// 删除心愿的接口
+app.post('/wishs/delete', function (req, res) {
+    console.log(req.body.data);
+    let result = radb.deleteValue('test','user.wishs',req.body.data);
+    if(result.status === 'success'){
+        res.send(result);
+    }else{
+        res.send(result);
+    }
+});
+
 // 添加类型的接口
 app.post('/types/add', function (req, res) {
     console.log(req.body.data);
