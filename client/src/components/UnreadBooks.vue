@@ -104,7 +104,7 @@ export default {
             console.log(this.formItem);
             var that = this;
             $.ajax({
-                url:"http://"+server+"/unreadbooks/add",
+                url:"http://"+this.Server.server+"/unreadbooks/add",
                 data:{data:this.formItem},
                 type:'POST',
                 dataType:'JSON',
@@ -139,7 +139,7 @@ export default {
                 onOk:function(){
                     var that = this;
                     $.ajax({
-                        url:"http://"+server+"/unreadbooks/delete",
+                        url:"http://"+this.Server.server+"/unreadbooks/delete",
                         data:{data:book},
                         type:'POST',
                         dataType:'JSON',
@@ -188,7 +188,7 @@ export default {
 
             var that = this;
             $.ajax({
-                url:"http://"+server+"/unreadbooks/startread",
+                url:"http://"+this.Server.server+"/unreadbooks/startread",
                 data:{data:send_data},
                 type:'POST',
                 dataType:'JSON',
@@ -218,7 +218,7 @@ export default {
         // 初始化所属和类型选项
         var that = this;
         $.ajax({
-            url:"http://"+server+"/belongs/get",
+            url:"http://"+this.Server.server+"/belongs/get",
             type:'GET',
             dataType:'json',
             success:function(result){
@@ -242,7 +242,7 @@ export default {
             }
         });
         $.ajax({
-            url:"http://"+server+"/types/get",
+            url:"http://"+this.Server.server+"/types/get",
             type:'GET',
             dataType:'json',
             success:function(result){
@@ -259,7 +259,7 @@ export default {
         });
         // 获取书籍信息并默认显示全部
         $.ajax({
-            url:"http://"+server+"/unreadbooks/get",
+            url:"http://"+this.Server.server+"/unreadbooks/get",
             type:'GET',
             dataType:'json',
             success:function(result){
