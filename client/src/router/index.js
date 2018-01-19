@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import UnreadBooks from '@/components/UnreadBooks'
 import BelongsSetting from '@/components/BelongsSetting'
 import TypesSetting from '@/components/TypesSetting'
+import ReadedBooks from '@/components/ReadedBooks'
+import Reading from '@/components/Reading'
 
 Vue.use(Router)
 
@@ -20,6 +22,14 @@ export default new Router({
       name: 'UnreadBooks',
       component: UnreadBooks
   },{
+        path: '/books/readed',
+        name: 'ReadedBooks',
+        component: ReadedBooks
+    },{
+          path: '/plans/reading',
+          name: 'Reading',
+          component: Reading
+      },{
       path:'/settings/belongs',
       name:'BelongsSetting',
       component: BelongsSetting

@@ -149,6 +149,66 @@ app.post('/unreadbooks/addtoplan', function (req, res) {
         res.send(result);
     }
 });
+
+// 获取书籍信息（正在读）
+app.get('/readingbooks/get', function (req, res) {
+    let result = radb.get('test','user.reading');
+    res.send(result);
+});
+
+// 将正在读的书改为已读完
+app.post('/reading/finish', function (req, res) {
+
+    let store_data = {};
+    store_data.bookName = req.body['data[bookName]'];
+    store_data.auther = req.body['data[auther]'];
+    store_data.belong = req.body['data[belong]'];
+    store_data.type = req.body['data[type]'];
+    store_data.comment = req.body['data[comment]'];
+
+    console.log(store_data);
+    //从正在读删除该书
+    radb.deleteValueByQuery("test",'user.reading','bookName','equal',store_data.bookName);
+
+
+    let result = radb.insertValue('test','user.readedBooks',store_data);
+    if(result.status === 'success'){
+        res.send(result);
+    }else{
+        res.send(result);
+    }
+});
+
+// 将正在读的书改为未读（放弃阅读）
+app.post('/reading/abandon', function (req, res) {
+
+    let store_data = {};
+    store_data.bookName = req.body['data[bookName]'];
+    store_data.auther = req.body['data[auther]'];
+    store_data.belong = req.body['data[belong]'];
+    store_data.type = req.body['data[type]'];
+
+    console.log(store_data);
+    //从正在读删除该书
+    radb.deleteValueByQuery("test",'user.reading','bookName','equal',store_data.bookName);
+
+    // 放入未读书籍中
+    let result = radb.insertValue('test','user.unreadbooks',store_data);
+    if(result.status === 'success'){
+        res.send(result);
+    }else{
+        res.send(result);
+    }
+});
+
+// 获取书籍信息（已读）
+app.get('/readedbooks/get', function (req, res) {
+    let result = radb.get('test','user.readedBooks');
+    res.send(result);
+});
+
+
+// 启动服务器
 var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;

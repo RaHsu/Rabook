@@ -55,20 +55,20 @@
                     <Tag color="green" type="dot">{{item.belong}}</Tag>
                 </p>
                 <p>
-                     <Button type="primary" @click.capture="startRead" :book_id="item.book_id">
+                     <Button size="small" type="primary" @click.capture="startRead" :book_id="item.book_id">
                          <Icon type="android-bookmark"></Icon>
                          开始读
                      </Button>
-                     <Button type="success"  @click.capture="addToPlan" :book_id="item.book_id">
+                     <Button size="small" type="success"  @click.capture="addToPlan" :book_id="item.book_id">
                          <Icon type="flag"></Icon>
                          加入最近阅读计划
                      </Button>
-                     <Button type="warning">
+                     <Button size="small" type="warning">
                          <Icon type="edit"></Icon>
                          修改
                      </Button>
 
-                     <Button type="error" @click.capture="deleteBook" :book="item.bookName"><Icon type="trash-b"></Icon> 删除</Button>
+                     <Button size="small" type="error" @click.capture="deleteBook" :book="item.bookName"><Icon type="trash-b"></Icon> 删除</Button>
 
 
                 </p>
@@ -340,7 +340,11 @@ export default {
     .bookList .ivu-card-bordered{
         width: 100%;
     }
-    @media screen and (min-width: 900px) {
+    .bookList .ivu-card-body{
+        padding-top: 5px;
+    }
+
+    @media screen and (min-width: 700px) {
         .bookList .ivu-card-bordered{
             width: 50%;
             display: inline-block;

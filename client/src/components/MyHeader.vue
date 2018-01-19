@@ -6,26 +6,35 @@
                 书籍
             </template>
             <router-link to="/books/unread">
-                <MenuItem name="1-1">未读书籍</MenuItem>
+                <MenuItem name="1-1"><Icon type="android-checkbox-blank"></Icon>未读书籍</MenuItem>
             </router-link>
             <router-link to="/books/readed">
-                <MenuItem name="1-2">已读书籍</MenuItem>
+                <MenuItem name="1-2"><Icon type="android-checkbox"></Icon>已读书籍</MenuItem>
             </router-link>
         </Submenu>
-      <MenuItem name="2">
-         <Icon type="flag"></Icon>
-          计划
-      </MenuItem>
+        <Submenu name="2">
+            <template slot="title">
+                <Icon type="flag"></Icon>
+                计划
+            </template>
+            <router-link to="/plans/reading">
+                <MenuItem name="2-1"><Icon type="bookmark"></Icon>
+                    正在读</MenuItem>
+            </router-link>
+            <router-link to="/plans/wishs">
+                <MenuItem name="2-2"><Icon type="heart"></Icon>心愿单</MenuItem>
+            </router-link>
+        </Submenu>
       <Submenu name="3">
           <template slot="title">
               <Icon type="settings"></Icon>
               设置
           </template>
           <router-link to="/settings/belongs">
-              <MenuItem name="3-1">所属管理</MenuItem>
+              <MenuItem name="3-1"><Icon type="android-apps"></Icon>所属管理</MenuItem>
           </router-link>
           <router-link to="/settings/types">
-              <MenuItem name="3-2">书籍类型管理</MenuItem>
+              <MenuItem name="3-2"><Icon type="pricetag"></Icon>书籍类型管理</MenuItem>
           </router-link>
       </Submenu>
   </Menu>
@@ -41,7 +50,8 @@
                 routes:[
                     {code:'1-1',route:'/books/unread'},
                     {code:'1-2',route:'/books/readed'},
-                    {code:'2',route:'/plan'},
+                    {code:'2-1',route:'/plans/reading'},
+                    {code:'2-2',route:'/plans/wishs'},
                     {code:'3-1',route:'/settings/belongs'},
                     {code:'3-2',route:'/settings/types'}
 
