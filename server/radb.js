@@ -160,3 +160,55 @@ radb.deleteValue = function(dbName,field,value){
 		return {status:'success',message:'删除成功'};
 	}
 }
+
+// 按条件删除值
+radb.deleteValueByQuery = function(dbName,field,keyword,condition,value){
+	let file_name = dbName + ".json";
+	let db = JSON.parse(fs.readFileSync(file_name));
+
+	let array = field.split(".");
+	let delete_field = db;
+	//console.log(delete_field);
+	for(let i = 0;i<array.length;i++){
+		//console.log(array[i]);
+		delete_field = delete_field[array[i]];
+
+	}
+
+
+	if(!delete_field){
+		throw Error("要删除的字段不存在");
+		return false;
+	}
+
+	let keyword_array =  keyword.split(".");
+	let keyword_field;
+
+
+	//在查找领域中查找
+	// equal情况
+	if(condition === 'equal'){
+		for(let i = 0;i<delete_field.length;i++){
+			keyword_field = delete_field[i];
+			for(let i = 0;i<keyword_array.length;i++){
+				keyword_field = keyword_field[keyword_array[i]];
+			}
+			if(!keyword_field){
+				throw Error("要查找的字段不存在");
+				return false;
+			}
+			if(keyword_field === value){
+				delete_field.splice(i,1);
+				console.log("删除成功");
+			}
+		}
+	}
+
+	let writeStream = JSON.stringify(db);
+	fs.writeFileSync(file_name,writeStream);
+
+	console.log(db);
+	return {status:'success',message:'删除成功'};
+
+
+}
