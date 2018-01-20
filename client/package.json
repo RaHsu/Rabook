@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "connect-history-api-fallback": "^1.5.0",
     "iview": "^2.8.0",
     "jquery": "^3.2.1",
     "vue": "^2.5.2",

@@ -69,9 +69,14 @@ $ cd client
 $ npm install
 ```
 
-启动客户端（客户端默认运行在8080端口）：
+构建客户端：
 ```
-$ npm run dev
+$ npm run bulid
+```
+
+启动客户端（客户端默认运行在3333端口）：
+```
+$ node server
 ```
 
 启动完毕，你就可以在http://localhost:8080看到这个应用了。
