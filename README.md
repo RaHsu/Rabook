@@ -79,7 +79,14 @@ $ npm run bulid
 $ node server
 ```
 
-启动完毕，你就可以在http://localhost:8080看到这个应用了。
+启动完毕，你就可以在http://localhost:3333 看到这个应用了。
+
+**注意：**如果你想在其他的电脑上访问这个应用，请在src/assets/js/url.js文件中将你的服务器端口路径写为绝对路径（不能写成localhost），如：
+```js
+var Server = {
+    server: "123.123.123.123:3000"
+};
+```
 
 ### License
 MIT
