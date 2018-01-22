@@ -73,7 +73,7 @@ $ npm install
 
 构建客户端：
 ```
-$ npm run bulid
+$ npm run build
 ```
 
 启动客户端（客户端默认运行在3333端口）：
