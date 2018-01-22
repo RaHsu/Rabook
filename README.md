@@ -43,6 +43,8 @@ Rabook是我个人使用的一个书籍管理工具，我因为买太多书没�
 
 
 ### 部署
+由于服务器是基于node.js的，所以在部署前你需要安装node。（具体安装方法请自行搜索）
+
 首先从github上克隆项目：
 ```
 $ git clone https://github.com/RaHsu/Rabook.git
