@@ -44,7 +44,7 @@ export default {
         submit:function(){
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/types/add",
+                url:"http://"+this.Server.server+"/types/add",
                 data:{data:this.formItem.type},
                 type:'POST',
                 success:function(result){
@@ -69,7 +69,7 @@ export default {
             console.log(name);
             var that = this;
             $.ajax({
-                url:"http://localhost:3000/types/delete",
+                url:"http://"+this.Server.server+"/types/delete",
                 type:'POST',
                 data:{data:name},
                 dataType:'json',
@@ -94,7 +94,7 @@ export default {
     created:function() {
         var that = this;
         $.ajax({
-            url:"http://localhost:3000/types/get",
+            url:"http://"+this.Server.server+"/types/get",
             type:'GET',
             dataType:'json',
             success:function(result){

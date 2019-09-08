@@ -6,9 +6,10 @@ import router from './router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import $ from 'jquery'
+import Server from './assets/js/url.js'
 
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false;
+Vue.prototype.Server = Server;
 Vue.use(iView);
 /* eslint-disable no-new */
 new Vue({
