@@ -130,7 +130,7 @@ export default {
             dataType:'json',
             success:function(result){
                 that.primary_book_list = result;
-                that.show_book_list = that.primary_book_list;
+                that.show_book_list = that.primary_book_list.reverse();
                 for(var i = 0;i<that.primary_book_list.length;i++){
                     that.primary_book_list[i].book_id = i;
                 }
